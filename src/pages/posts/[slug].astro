@@ -1,0 +1,48 @@
+---
+import "../../styles/global.css";
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../util/load-query";
+import { PortableText } from "astro-portabletext";
+import { urlForImage } from "../../util/url-for-image";
+import Layout from "../../layouts/Layout.astro";
+
+const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
+
+const { data: post } = await loadQuery<SanityDocument>({
+  query: POST_QUERY,
+  params: { slug: Astro.params.slug as string },
+  enabled: Astro.url.searchParams.has("preview"),
+});
+
+if (!post) {
+  throw new Error(`Post not found: ${Astro.params.slug}`);
+}
+
+const postImageUrl = post.image
+  ? urlForImage(post.image)?.width(550).height(310).url()
+  : null;
+---
+
+<Layout>
+  <main
+    class="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4"
+  >
+    <a href="/posts" class="hover:underline">&larr; Back to posts</a>
+    {
+      postImageUrl && (
+        <img
+          src={postImageUrl}
+          alt={post.title}
+          class="aspect-video rounded-xl"
+          width="550"
+          height="310"
+        />
+      )
+    }
+    <h1 class="text-4xl font-bold mb-8">{post.title}</h1>
+    <div class="prose">
+      <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p>
+      {Array.isArray(post.body) && <PortableText value={post.body} />}
+    </div>
+  </main>
+</Layout>

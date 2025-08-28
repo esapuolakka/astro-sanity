@@ -1,0 +1,26 @@
+---
+import Hero from "./Hero.astro";
+import Features from "./Features.astro";
+import SplitImage from "./SplitImage.astro";
+import FAQs from "./FAQs.astro";
+
+const { content } = Astro.props;
+---
+
+<main>
+  {Array.isArray(content) &&
+    content.map((block) => {
+      switch (block._type) {
+        case "hero":
+          return <Hero {...block} />;
+        case "features":
+          return <Features {...block} />;
+        case "splitImage":
+          return <SplitImage {...block} />;
+        case "faqs":
+          return <FAQs {...block} />;
+        default:
+          return <div>Block not found: {block._type}</div>;
+      }
+    })}
+</main>

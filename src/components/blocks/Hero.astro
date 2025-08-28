@@ -1,0 +1,38 @@
+---
+import { PortableText } from "astro-portabletext";
+import { urlForImage } from "../../util/url-for-image";
+
+type HeroProps = {
+  title?: string;
+  text?: any;
+  image?: any;
+};
+
+const { title, text, image } = Astro.props as HeroProps;
+---
+
+<section class="isolate w-full aspect-[2/1] py-16 relative overflow-hidden">
+  <div class="relative flex flex-col justify-center items-center gap-8 h-full z-20">
+    {title && (
+      <h1 class="text-2xl md:text-4xl lg:text-6xl font-semibold text-white text-pretty max-w-3xl">
+        {title}
+      </h1>
+    )}
+    <div class="prose-lg lg:prose-xl prose-invert flex items-center">
+      {text && <PortableText value={text} />}
+    </div>
+  </div>
+
+  <div class="absolute inset-0 bg-pink-500 opacity-50 z-10"></div>
+
+  {image && (
+    <img
+      class="absolute inset-0 object-cover blur-sm w-full h-full"
+      src={urlForImage(image).width(1600).height(800).url()}
+      width="1600"
+      height="800"
+      alt=""
+      loading="lazy"
+    />
+  )}
+</section>
