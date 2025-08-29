@@ -4,7 +4,7 @@ export const client = createClient({
   projectId: 'ftlckvo2',
   dataset: 'production',
   apiVersion: '2025-08-29',
-  useCdn: true,
+  useCdn: false,
   stega: {
     studioUrl: "/studio",
   },
