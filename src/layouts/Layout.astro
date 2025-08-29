@@ -1,21 +1,27 @@
 ---
 import { VisualEditing } from "@sanity/astro/visual-editing";
 
-const visualEditingEnabled = true
-
+/**
+ * visualEditingEnabled:
+ * - true, jos kehitysympäristössä (DEV)
+ * - true, jos PUBLIC_SANITY_PREVIEW on 'true' tuotannossa
+ * - false muuten
+ */
+const visualEditingEnabled = import.meta.env.DEV || import.meta.env.PUBLIC_SANITY_PREVIEW === "true";
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Site</title>
   </head>
   <body>
     <slot />
-    <VisualEditing enabled={visualEditingEnabled} zIndex={1000}/>
+    {visualEditingEnabled && (
+      <VisualEditing enabled={visualEditingEnabled} zIndex={1000}/>
+    )}
   </body>
 </html>
-

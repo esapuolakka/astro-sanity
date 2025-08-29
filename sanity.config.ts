@@ -6,6 +6,6 @@ export const client = createClient({
   apiVersion: '2025-08-29',
   useCdn: false,
   stega: {
-    studioUrl: "https://astro-esa.sanity.studio/",
+    studioUrl: "/studio",
   },
 });
