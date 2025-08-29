@@ -7,7 +7,7 @@ import { client } from "./sanity.config";
 
 import svelte from "@astrojs/svelte";
 
-const { projectId, dataset, useCdn, stega, studioBasePath, apiVersion } = client.config();
+const { projectId, dataset, useCdn, stega, apiVersion } = client.config();
 
 
 // https://astro.build/config
@@ -25,7 +25,6 @@ export default defineConfig({
       useCdn,
       stega,
       apiVersion,
-      studioBasePath,
     }),
     react(),
     svelte(),
