@@ -1,5 +1,5 @@
 import { type QueryParams } from "sanity";
-import { sanityClient } from "sanity:client";
+import { client } from "../../sanity.config";
 
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
@@ -14,7 +14,7 @@ export async function loadQuery<QueryResponse>({ query, params }: { query: strin
 
   const perspective = visualEditingEnabled ? "previewDrafts" : "published";
 
-  const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(
+  const { result, resultSourceMap } = await client.fetch<QueryResponse>(
     query,
     params ?? {},
     {

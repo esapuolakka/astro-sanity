@@ -3,7 +3,7 @@ import Hero from "./blocks/Hero.astro";
 import Features from "./blocks/Features.astro";
 import SplitImage from "./blocks/SplitImage.astro";
 import FAQs from "./blocks/FAQs.astro";
-import { sanityClient } from "sanity:client";
+import { client } from "../../sanity.config";
 
 const { content, documentId, documentType } = Astro.props;
 
@@ -14,7 +14,7 @@ type DataAttribute = {
 };
 
 export function createDataAttribute({ id, type, path }: DataAttribute) {
-  const config = sanityClient.config();
+  const config = client.config();
   return JSON.stringify({
     projectId: config.projectId,
     dataset: config.dataset,
