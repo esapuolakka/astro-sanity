@@ -1,31 +1,33 @@
 ---
-import { Image } from "astro:assets";
+// SplitImage.astro
 import { urlForImage } from "../../util/url-for-image";
+import { stegaClean } from "@sanity/client/stega";
 
 const { title, image, orientation } = Astro.props;
-const safeOrientation = orientation ?? "imageLeft";
 
-let imageUrl: string | null = null;
-if (image) {
-  imageUrl = urlForImage(image).width(800).height(600).url();
-}
+const imageUrl = image ? urlForImage(image).width(500).height(500).url() : null;
+const cleanOrientation = stegaClean(orientation) || "imageLeft";
 ---
 
+<style>
+  section[data-orientation="imageRight"] {
+    flex-direction: row-reverse;
+  }
+</style>
+
 <section
-  class="container mx-auto flex gap-8 py-16 data-[orientation='imageRight']:flex-row-reverse"
-  data-orientation={safeOrientation}
+  class="container mx-auto flex gap-8 py-16"
+  data-orientation={cleanOrientation}
 >
   {imageUrl && (
-    <Image
-      class="rounded-xl w-2/3 h-auto"
+    <img
+      class="rounded-xl w-1/2 h-auto"
       src={imageUrl}
       alt=""
-      width={800}
-      height={600}
     />
   )}
 
-  <div class="w-1/3 flex items-center">
+  <div class="w-1/2 flex items-center">
     {title && (
       <h2 class="text-3xl mx-auto md:text-5xl lg:text-8xl font-light text-pink-500 text-pretty max-w-3xl">
         {title}

@@ -1,11 +1,9 @@
 ---
 import '../styles/global.css';
 import type { SanityDocument } from "@sanity/client";
-import PageBuilder from "../components/blocks/PageBuilder.astro";
+import PageBuilder from "../components/PageBuilder.astro";
 import {loadQuery} from '../util/load-query'
 import Layout from '../layouts/Layout.astro';
-
-const enabled = Astro.url.searchParams.has('preview');
 
 export const prerender = false;
 
@@ -13,11 +11,7 @@ const PAGE_QUERY = `*[_type == "page" && slug.current == $slug][0]{
   ...,
   content[]{
     ...,
-    _type == "faqs" => {
-      ...,
-      faqs[]->
-    }
-  }
+  },
 }`;
 
 const slug = Astro.params.slug as string;
@@ -25,9 +19,8 @@ const slug = Astro.params.slug as string;
 const { data: page } = await loadQuery<SanityDocument>({
   query: PAGE_QUERY,
   params: { slug },
-  enabled
 });
 ---
 <Layout>
-  {page?.content && <PageBuilder content={page.content} />}
+  {page?.content && <PageBuilder content={page.content} documentId={page._id} documentType={page._type} />}
 </Layout>

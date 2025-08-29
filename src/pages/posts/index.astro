@@ -12,7 +12,6 @@ const POSTS_QUERY = `*[
 const { data: posts } = await loadQuery<Array<SanityDocument>>({
   query: POSTS_QUERY,
   params: {},
-  enabled: true
 });
 ---
 <Layout>

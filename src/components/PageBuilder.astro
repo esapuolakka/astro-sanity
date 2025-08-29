@@ -1,0 +1,59 @@
+---
+import Hero from "./blocks/Hero.astro";
+import Features from "./blocks/Features.astro";
+import SplitImage from "./blocks/SplitImage.astro";
+import FAQs from "./blocks/FAQs.astro";
+import { sanityClient } from "sanity:client";
+
+const { content, documentId, documentType } = Astro.props;
+
+type DataAttribute = {
+  id: string;
+  type: string;
+  path: string;
+};
+
+export function createDataAttribute({ id, type, path }: DataAttribute) {
+  const config = sanityClient.config();
+  return JSON.stringify({
+    projectId: config.projectId,
+    dataset: config.dataset,
+    baseUrl: typeof config.stega.studioUrl === "string" ? config.stega.studioUrl : "",
+    id,
+    type,
+    path,
+  });
+}
+---
+
+<main
+  data-sanity={createDataAttribute({
+        id: documentId,
+        type: documentType,
+        path: "content",
+      }).toString()}
+>
+  {Array.isArray(content) &&
+    content.map((block) => {
+      const dragHandleAttrs = {
+        "data-sanity": createDataAttribute({
+          id: documentId,
+          type: documentType,
+          path: `content[_key=="${block._key}"]`
+        })
+      };
+
+      switch (block._type) {
+        case "hero":
+          return <div {...dragHandleAttrs}><Hero {...block} /></div>;
+        case "features":
+          return <div {...dragHandleAttrs}><Features {...block} /></div>;
+        case "splitImage":
+          return <div {...dragHandleAttrs}><SplitImage {...block} /></div>;
+        case "faqs":
+          return <div {...dragHandleAttrs}><FAQs {...block} /></div>;
+        default:
+          return <div {...dragHandleAttrs}>Block not found: {block._type}</div>;
+      }
+    })}
+</main>

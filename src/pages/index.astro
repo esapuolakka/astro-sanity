@@ -1,25 +1,24 @@
 ---
 import '../styles/global.css';
 import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
-import PageBuilder from "../components/blocks/PageBuilder.astro";
-
-export const prerender = false;
+import { loadQuery } from "../util/load-query";
+import PageBuilder from "../components/PageBuilder.astro";
+import Layout from "../layouts/Layout.astro";
 
 const HOME_PAGE_QUERY = `*[_id == "siteSettings"][0]{
     homePage->{
       ...,
       content[]{
         ...,
-        _type == "faqs" => {
-          ...,
-          faqs[]->
-        }
       }      
     }
-  }`
+  }`;
 
-const page = await sanityClient.fetch<SanityDocument>(HOME_PAGE_QUERY);
+const { data: homePage } = await loadQuery<SanityDocument>({
+  query: HOME_PAGE_QUERY,
+  params: {},
+});
 ---
-
-{page?.homePage.content && <PageBuilder content={page.homePage.content} />}
+<Layout>
+  {homePage?.homePage?.content && <PageBuilder content={homePage.homePage.content} documentId={homePage.homePage._id} documentType={homePage.homePage._type} />}
+</Layout>

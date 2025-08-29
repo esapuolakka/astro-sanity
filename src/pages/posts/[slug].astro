@@ -11,7 +11,6 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 const { data: post } = await loadQuery<SanityDocument>({
   query: POST_QUERY,
   params: { slug: Astro.params.slug as string },
-  enabled: Astro.url.searchParams.has("preview"),
 });
 
 if (!post) {

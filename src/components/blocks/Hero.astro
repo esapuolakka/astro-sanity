@@ -18,19 +18,19 @@ const { title, text, image } = Astro.props as HeroProps;
         {title}
       </h1>
     )}
-    <div class="prose-lg lg:prose-xl prose-invert flex items-center">
+    <div class="p-10 bg-opacity-20 rounded-lg backdrop-blur-sm">
+      <div class="prose-lg lg:prose-xl prose-invert flex items-center">
       {text && <PortableText value={text} />}
+    </div>
     </div>
   </div>
 
-  <div class="absolute inset-0 bg-pink-500 opacity-50 z-10"></div>
+  <div class="absolute inset-0 z-10"></div>
 
   {image && (
     <img
-      class="absolute inset-0 object-cover blur-sm w-full h-full"
+      class="absolute inset-0 object-cover blur-sm w-full"
       src={urlForImage(image).width(1600).height(800).url()}
-      width="1600"
-      height="800"
       alt=""
       loading="lazy"
     />

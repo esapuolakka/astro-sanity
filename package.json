@@ -12,6 +12,7 @@
     "@astrojs/mdx": "^4.3.4",
     "@astrojs/netlify": "^6.5.9",
     "@astrojs/react": "^4.3.0",
+    "@astrojs/svelte": "^7.1.0",
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.10.0",
     "@sanity/image-url": "^1.1.0",
@@ -27,6 +28,8 @@
     "react-is": "^19.1.1",
     "sanity": "^4.6.0",
     "styled-components": "^6.1.19",
-    "tailwindcss": "^4.1.3"
+    "svelte": "^5.38.6",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.9.2"
   }
 }
